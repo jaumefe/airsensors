@@ -1,10 +1,27 @@
 package modules
 
+type TemperatureDecoder interface {
+	TemperatureFromRaw(rawTemperature []byte) float64
+}
+
+type HumidityDecoder interface {
+	HumidityFromRaw(rawHumidity []byte) float64
+}
+
+type PressureDecoder interface {
+	PressureFromRaw(rawPressure []byte) float64
+}
+
+type GasResistanceDecoder interface {
+	GasResistanceFromRaw(rawGasResistance []byte) float64
+}
+
 type SensorDecoder interface {
-	Decode() (Measurement, error)
-	TemperatureFromRaw() (float64, error)
-	HumidityFromRaw() (float64, error)
-	PressureFromRaw() (float64, error)
-	GasResistanceFromRaw() (float64, error)
+	TemperatureDecoder
+	HumidityDecoder
+	PressureDecoder
+	GasResistanceDecoder
+
+	Decode(raw RawData) Measurement
 	SensorName() string
 }

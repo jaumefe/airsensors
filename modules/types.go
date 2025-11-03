@@ -6,3 +6,10 @@ type Measurement struct {
 	Pressure      float64
 	GasResistance float64
 }
+
+type RawData struct {
+	RawTemperature   uint
+	RawHumidity      uint
+	RawPressure      uint
+	RawGasResistance uint
+}
