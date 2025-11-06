@@ -14,21 +14,21 @@ func NewDecoder(calibration BME680Cablibration) *BME680Decoder {
 
 func (d *BME680Decoder) Decode(raw modules.RawData) modules.Measurement {
 	meas := modules.Measurement{}
-	meas.Temperature = d.TemperatureFromRaw(raw.RawTemperature)
-	meas.Humidity = d.HumidityFromRaw(raw.RawHumidity, meas.Temperature)
-	meas.Pressure = d.PressureFromRaw(raw.RawPressure, meas.Temperature)
-	meas.GasResistance = d.GasResistanceFromRaw(raw.RawGasResistance)
+	meas.Temperature = d.temperatureFromRaw(raw.RawTemperature)
+	meas.Humidity = d.humidityFromRaw(raw.RawHumidity, meas.Temperature)
+	meas.Pressure = d.pressureFromRaw(raw.RawPressure, meas.Temperature)
+	meas.GasResistance = d.gasResistanceFromRaw(raw.RawGasResistance)
 	return meas
 }
 
-func (d *BME680Decoder) TemperatureFromRaw(rawTemperature uint) float64 {
+func (d *BME680Decoder) temperatureFromRaw(rawTemperature uint) float64 {
 	var1 := (((float64)(rawTemperature) / 16384.0) - ((float64)(d.calibration.ParT1) / 1024.0)) * (float64)(d.calibration.ParT2)
 	var2 := ((((float64)(rawTemperature) / 131072.0) - ((float64)(d.calibration.ParT1) / 8192.0)) * (((float64)(rawTemperature) / 131072.0) - ((float64)(d.calibration.ParT1) / 8192.0))) * ((float64)(d.calibration.ParT3) * 16.0)
 	tFine := var1 + var2
 	return tFine / 5120.0
 }
 
-func (d *BME680Decoder) HumidityFromRaw(rawHumidity uint, temperature float64) float64 {
+func (d *BME680Decoder) humidityFromRaw(rawHumidity uint, temperature float64) float64 {
 	var1 := (float64)(rawHumidity) - (((float64)(d.calibration.ParH1) * 16.0) + (((float64)(d.calibration.ParH3) / 2.0) * temperature))
 	var2 := var1 * (((float64)(d.calibration.ParH2) / 262144.0) * (1.0 + (((float64)(d.calibration.ParH4) / 16384.0) * temperature) + (((float64)(d.calibration.ParH5) / 1048576.0) * temperature * temperature)))
 	var3 := (float64)(d.calibration.ParH6) / 16384.0
@@ -42,7 +42,7 @@ func (d *BME680Decoder) HumidityFromRaw(rawHumidity uint, temperature float64) f
 	return humidity
 }
 
-func (d *BME680Decoder) PressureFromRaw(rawPressure uint, temperature float64) float64 {
+func (d *BME680Decoder) pressureFromRaw(rawPressure uint, temperature float64) float64 {
 	var1 := (temperature/5120.0)/2.0 - 64000.0
 	var2 := var1 * var1 * ((float64)(d.calibration.ParP6)) / 131072.0
 	var2 = var2 + (var1 * ((float64)(d.calibration.ParP5)) * 2.0)
@@ -58,7 +58,7 @@ func (d *BME680Decoder) PressureFromRaw(rawPressure uint, temperature float64) f
 	return pressure
 }
 
-func (d *BME680Decoder) GasResistanceFromRaw(rawGasResistance uint) float64 {
+func (d *BME680Decoder) gasResistanceFromRaw(rawGasResistance uint) float64 {
 	var1 := (1340.0 + 5.0*(float64)(d.calibration.GasRangeSWErr)) * const_array_1[d.calibration.GasRange]
 	gas_res := var1 * const_array_2[d.calibration.GasRange] / ((float64)(rawGasResistance) - 512.0 + var1)
 	return gas_res
