@@ -12,11 +12,11 @@ func NewDecoder(calibration DPS310Calibration) *DPS310Decoder {
 	}
 }
 
-func (d *DPS310Decoder) Decode(raw modules.RawData) modules.Measurement {
+func (d *DPS310Decoder) Decode(raw modules.RawData) (modules.Measurement, error) {
 	meas := modules.Measurement{}
 	meas.Temperature = d.temperatureFromRaw(raw.RawTemperature)
 	meas.Pressure = d.pressureFromRaw(raw.RawPressure, raw.RawTemperature)
-	return meas
+	return meas, nil
 }
 
 func (d *DPS310Decoder) temperatureFromRaw(rawTemperature uint) float64 {

@@ -12,13 +12,13 @@ func NewDecoder(calibration BME680Cablibration) *BME680Decoder {
 	}
 }
 
-func (d *BME680Decoder) Decode(raw modules.RawData) modules.Measurement {
+func (d *BME680Decoder) Decode(raw modules.RawData) (modules.Measurement, error) {
 	meas := modules.Measurement{}
 	meas.Temperature = d.temperatureFromRaw(raw.RawTemperature)
 	meas.Humidity = d.humidityFromRaw(raw.RawHumidity, meas.Temperature)
 	meas.Pressure = d.pressureFromRaw(raw.RawPressure, meas.Temperature)
 	meas.GasResistance = d.gasResistanceFromRaw(raw.RawGasResistance)
-	return meas
+	return meas, nil
 }
 
 func (d *BME680Decoder) temperatureFromRaw(rawTemperature uint) float64 {
