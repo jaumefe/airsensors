@@ -8,8 +8,8 @@ type Measurement struct {
 }
 
 type RawData struct {
-	RawTemperature   uint
-	RawHumidity      uint
-	RawPressure      uint
-	RawGasResistance uint
+	RawTemperature   int
+	RawHumidity      int
+	RawPressure      int
+	RawGasResistance int
 }

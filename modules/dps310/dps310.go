@@ -1,6 +1,8 @@
 package dps310
 
-import "airsensors/modules"
+import (
+	"airsensors/modules"
+)
 
 type DPS310Decoder struct {
 	calibration DPS310Calibration
@@ -19,13 +21,13 @@ func (d *DPS310Decoder) Decode(raw modules.RawData) modules.Measurement {
 	return meas
 }
 
-func (d *DPS310Decoder) temperatureFromRaw(rawTemperature uint) float64 {
+func (d *DPS310Decoder) temperatureFromRaw(rawTemperature int) float64 {
 	temperatureScaledRaw := (float64)(rawTemperature) / d.calibration.KT
-	temperature := (float64)(d.calibration.C0)*0.5 + (float64)(d.calibration.C1)*(float64)(temperatureScaledRaw)
+	temperature := (float64)(d.calibration.C0)*0.5 + (float64)(d.calibration.C1)*temperatureScaledRaw
 	return temperature
 }
 
-func (d *DPS310Decoder) pressureFromRaw(rawPressure uint, rawTemperature uint) float64 {
+func (d *DPS310Decoder) pressureFromRaw(rawPressure int, rawTemperature int) float64 {
 	temperatureScaledRaw := (float64)(rawTemperature) / d.calibration.KT
 	pressureScaledRaw := (float64)(rawPressure) / d.calibration.KP
 	pressure := (float64)(d.calibration.C00) + pressureScaledRaw*((float64)(d.calibration.C10)+pressureScaledRaw*((float64)(d.calibration.C20)+pressureScaledRaw*(float64)(d.calibration.C30))) + temperatureScaledRaw*(float64)(d.calibration.C01) + temperatureScaledRaw*pressureScaledRaw*((float64)(d.calibration.C11)+pressureScaledRaw*(float64)(d.calibration.C21))
