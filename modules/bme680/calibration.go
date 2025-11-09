@@ -8,6 +8,9 @@ var const_array_2 = []float64{
 	8000000, 4000000, 2000000, 1000000, 499500.4995, 248262.1648, 125000, 63004.03226, 31281.28128, 15625, 7812.5, 3906.25, 1953.125, 976.5625, 488.28125, 244.140625,
 }
 
+/*
+BME680Cablibration holds the calibration parameters for BME680 sensor
+*/
 type BME680Cablibration struct {
 	ParT1 uint16
 	ParT2 int16
