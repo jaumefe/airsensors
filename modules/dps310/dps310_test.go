@@ -1,8 +1,9 @@
 package dps310
 
 import (
-	"airsensors/modules"
 	"testing"
+
+	"github.com/jaumefe/airsensors/modules"
 )
 
 var calibrationTestData = DPS310Calibration{

@@ -1,7 +1,7 @@
 package dps310
 
 import (
-	"airsensors/modules"
+	"github.com/jaumefe/airsensors/modules"
 )
 
 type DPS310Decoder struct {

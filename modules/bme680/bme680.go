@@ -1,6 +1,6 @@
 package bme680
 
-import "airsensors/modules"
+import "github.com/jaumefe/airsensors/modules"
 
 type BME680Decoder struct {
 	calibration BME680Cablibration

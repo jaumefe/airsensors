@@ -1,8 +1,9 @@
 package bme680
 
 import (
-	"airsensors/modules"
 	"testing"
+
+	"github.com/jaumefe/airsensors/modules"
 )
 
 var calibrationTestData = BME680Cablibration{

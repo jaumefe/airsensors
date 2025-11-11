@@ -1,6 +1,6 @@
 package sht4x
 
-import "airsensors/modules"
+import "github.com/jaumefe/airsensors/modules"
 
 type SHT4XDecoder struct{}
 

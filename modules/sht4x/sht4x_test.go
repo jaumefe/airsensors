@@ -1,8 +1,9 @@
 package sht4x
 
 import (
-	"airsensors/modules"
 	"testing"
+
+	"github.com/jaumefe/airsensors/modules"
 )
 
 func TestNewDecoder(t *testing.T) {
